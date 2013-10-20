@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Oct 19, 2013, 3:27:33 PM
+    Document   : success
+    Created on : Oct 19, 2013, 5:39:36 PM
     Author     : development
 --%>
 
@@ -13,13 +13,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        
-        <form action="MySqlController" method="POST">
-            
-            Name:<input type="text" name="table"/>
-            <input type="submit" value="Submit"/>
-            
-        </form>
+        Name: ${requestScope.name.name};
         
     </body>
 </html>
