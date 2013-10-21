@@ -1,7 +1,7 @@
 <%-- 
-    Document   : success
-    Created on : Oct 19, 2013, 5:39:36 PM
-    Author     : development
+    Document   : error
+    Created on : Oct 20, 2013, 1:51:11 PM
+    Author     : Side
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,11 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            
+            
+        </style>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Error Detected</h1>
         
-        Name: ${requestScope.ann.ann}
-       
+        ${requestScope.ann.ann}
+        
     </body>
 </html>
