@@ -15,6 +15,8 @@
         <h1>Hello World!</h1>
         
         Name: ${requestScope.ann.ann}
-       
+        <form action="MySqlController" method="POST">
+       Read My Records: <input type="submit" name="read" value="Read Records"><br>
+        </form>
     </body>
 </html>

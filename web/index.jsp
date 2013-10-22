@@ -38,6 +38,7 @@
            In ID:
            <input type="text" name="inID"><br>
            <input type="submit" name="update" value="Update Data"><br>
-        <form
+           Read My Records: <input type="submit" name="read" value="Read Records"><br>
+           </form>
     </body>
 </html>

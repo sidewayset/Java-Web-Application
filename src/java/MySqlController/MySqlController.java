@@ -8,10 +8,14 @@ package MySqlController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sun.security.rsa.RSACore;
 
 /**
  *
@@ -110,9 +114,43 @@ public class MySqlController extends HttpServlet{
                         String olddata = data[i];
                         String newData= request.getParameter("newData");
                         String id = request.getParameter("inID");
-                        query.updateRecord(); //updateTable, olddata, newData, id
+                        query.updateRecord(updateTable, olddata, newData, id); //updateTable, olddata, newData, id
                         errorChecker(query, request, response);
                    }
+        else
+                   if(request.getParameter("read")!=null)
+                       {
+                       /*
+                            String page="readmysql.jsp";
+                            PrintWriter out = response.getWriter();
+                            response.setContentType("text/html");
+                            List dataList = new ArrayList();
+                            query.readRecord();
+                            try
+                               {
+                                         while(query.rs.next())
+                                        {
+                                                dataList.add(query.rs.getInt("id"));
+                                                dataList.add(query.rs.getString("first"));
+                                                dataList.add(query.rs.getString("last"));
+                                                dataList.add(query.rs.getInt("age"));
+                                        }
+                                         query.rs.close();
+                                         query.stmt.close();
+                               }
+                           catch (Exception e)
+                               {
+                                System.out.println("Exception is ;"+e);
+                               }
+                               */
+                           query.readRecord(response);
+                           request.setAttribute("data", query.dataList);
+                           RequestDispatcher dispatcher = request.getRequestDispatcher(query.page);
+                           if(dispatcher!=null)
+                               {
+                                dispatcher.forward(request, response);
+                               }
+                       }
         
         
         

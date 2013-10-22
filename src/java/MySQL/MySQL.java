@@ -5,11 +5,15 @@
  */
 
 package MySQL;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author Vahagn Madatyan
@@ -22,9 +26,12 @@ public class MySQL {
    private String pass;
    private String database;
    private Connection conn;
-   private Statement stmt;
+   public Statement stmt;
    private String ann;
    public boolean error=false;
+   public ResultSet rs;
+   public  String page;
+   public List dataList;
 
    
     public String getAnn()
@@ -55,6 +62,7 @@ public class MySQL {
         user = "sidewaysetphp";
         pass = "set2set";
         connect();
+         dataList = new ArrayList(); 
         }
 
 
@@ -149,15 +157,15 @@ public class MySQL {
                 }
     }
    
-   public void updateRecord()//String tableName,String data,String newData,String id
+   public void updateRecord(String tableName,String data,String newData,String id)//
        {
            try
                {
-                    String id="300";
+                   
                     System.out.println("Updating Records...");
                     stmt=conn.createStatement();
-                    String sql = "UPDATE mytest"+
-                                 "SET first = a WHERE id in (300)"; //SET '"+data+"' = '"+newData+"' WHERE id in ("+id+")
+                    String sql = "UPDATE "+tableName+" "+
+                                 "SET "+data+" = '"+newData+"' WHERE id IN ("+id+")"; //SET '"+data+"' = '"+newData+"' WHERE id in ("+id+")
                     stmt.executeUpdate(sql);
                     conn.close();
                     error=false;
@@ -169,6 +177,55 @@ public class MySQL {
                }
        }
    
+   public List readRecord(HttpServletResponse response) throws IOException
+       {
+       
+            try
+               {
+                     System.out.println("Reading Records...");
+                     stmt = conn.createStatement();
+
+                     String sql = "SELECT id, first, last, age FROM mytest";
+                     stmt.executeQuery(sql);
+                     rs=stmt.getResultSet();
+                     page="readmysql.jsp";
+                     PrintWriter out = response.getWriter();
+                     response.setContentType("text/html");
+                     
+                     while(rs.next())
+                                        {
+                                                dataList.add(rs.getInt("id"));
+                                                dataList.add(rs.getString("first"));
+                                                dataList.add(rs.getString("last"));
+                                                dataList.add(rs.getInt("age"));
+                                        }
+                                         rs.close();
+                                         stmt.close();
+                     /*
+                     while(rs.next()){
+                        //Retrieve by column name
+                        int id  = rs.getInt("id");
+                        int age = rs.getInt("age");
+                        String first = rs.getString("first");
+                        String last = rs.getString("last");
+
+                        //Display values
+                        System.out.print("ID: " + id);
+                        System.out.print(", Age: " + age);
+                        System.out.print(", First: " + first);
+                        System.out.println(", Last: " + last);
+                     }
+                     */
+                     
+                     
+                    
+               }
+           catch (SQLException se)
+               {
+                    SQLException(se);
+               }
+        return dataList;
+       }
    
    public void SQLException(SQLException se)
        {
